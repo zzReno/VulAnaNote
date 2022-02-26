@@ -4,19 +4,6 @@
   
   
   <entry>
-    <title></title>
-    <link href="/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/"/>
-    <url>/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/</url>
-    
-    <content type="html"><![CDATA[<h2 id="一、攻击原理"><a href="#一、攻击原理" class="headerlink" title="一、攻击原理"></a>一、攻击原理</h2><p>缓慢的HTTP拒绝服务攻击是CC攻击的变种，该攻击针对Web应用层，通过缓慢发送http请求，占用了服务器资源，保持和服务器通信的不中断，降低服务器响应效率。Web Server的并发连接有一定的上限，若攻击者发送大量的缓慢http请求，可以占满服务器的带宽直至服务器无法对外提供服务。</p><h2 id="二、攻击分类"><a href="#二、攻击分类" class="headerlink" title="二、攻击分类"></a>二、攻击分类</h2><h3 id="1-Slow-headers"><a href="#1-Slow-headers" class="headerlink" title="1. Slow headers"></a>1. Slow headers</h3><p>在正常的HTTP包头中，是以两个CLRF（<code>\r\n\r\n</code>）表示HTTP Headers部分结束的，可以看下面这个http请求，没有出现<code>\r\n\r\n</code>的结束符，服务器就会一直等待接下来的请求。</p><figure class="highlight http"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs http">GET / HTTP/1.1\r\n<br><span class="hljs-attribute">HOST</span><span class="hljs-punctuation">: </span>127.0.0.1\r\n<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/11.0\r\n<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>100\r\n<br></code></pre></td></tr></table></figure><h3 id="2-Slow-body"><a href="#2-Slow-body" class="headerlink" title="2. Slow body"></a>2. Slow body</h3><p>Slow body针对POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源</p><h3 id="3-Slow-read"><a href="#3-Slow-read" class="headerlink" title="3. Slow read"></a>3. Slow read</h3><p>客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源</p><h2 id="三、防护方法"><a href="#三、防护方法" class="headerlink" title="三、防护方法"></a>三、防护方法</h2><h3 id="1-限制http头的大小"><a href="#1-限制http头的大小" class="headerlink" title="1. 限制http头的大小"></a>1. 限制http头的大小</h3><p>可以在服务器上进行设置，制定http头部大小的上限，当缓慢的http拒绝服务攻击发出的http头到达所设置的阈值，服务器就主动中断连接</p><h3 id="2-限制最小速率和超时时间"><a href="#2-限制最小速率和超时时间" class="headerlink" title="2. 限制最小速率和超时时间"></a>2. 限制最小速率和超时时间</h3><p>对http请求的最小速率进行限制，如果请求过程过于缓慢，则断开请求<br>设置http请求的超时阈值，如果超过时间阈值，则断开请求</p><p>这两种设置的原理是一样的</p><h3 id="3-控制并发连接数"><a href="#3-控制并发连接数" class="headerlink" title="3. 控制并发连接数"></a>3. 控制并发连接数</h3><p>设置并发连接阈值，当服务器并发连接数过多时，主动断开一些连接来保证服务器正常处理新的请求</p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>Apache Tomcat拒绝服务漏洞(CVE-2021-42340)</title>
     <link href="/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/"/>
     <url>/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/</url>
@@ -42,6 +29,31 @@
       <tag>2022</tag>
       
       <tag>内存泄漏</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Apache Tomcat拒绝服务漏洞(CVE-2021-42340)</title>
+    <link href="/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/"/>
+    <url>/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://zzreno.github.io/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/">Apache Tomcat拒绝服务漏洞(CVE-2021-42340)</a>是因代码中没有对http连接创建的对象进行释放，从而导致内存泄漏，和缓慢的http拒绝服务异曲同工。</p><h2 id="一、攻击原理"><a href="#一、攻击原理" class="headerlink" title="一、攻击原理"></a>一、攻击原理</h2><p>缓慢的HTTP拒绝服务攻击是CC攻击的变种，该攻击针对Web应用层，通过缓慢发送http请求，占用了服务器资源，保持和服务器通信的不中断，降低服务器响应效率。Web Server的并发连接有一定的上限，若攻击者发送大量的缓慢http请求，可以占满服务器的带宽直至服务器无法对外提供服务。</p><h2 id="二、攻击分类"><a href="#二、攻击分类" class="headerlink" title="二、攻击分类"></a>二、攻击分类</h2><h3 id="1-Slow-headers"><a href="#1-Slow-headers" class="headerlink" title="1. Slow headers"></a>1. Slow headers</h3><p>在正常的HTTP包头中，是以两个CLRF（<code>\r\n\r\n</code>）表示HTTP Headers部分结束的，可以看下面这个http请求，没有出现<code>\r\n\r\n</code>的结束符，服务器就会一直等待接下来的请求。</p><figure class="highlight http"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs http">GET / HTTP/1.1\r\n<br><span class="hljs-attribute">HOST</span><span class="hljs-punctuation">: </span>127.0.0.1\r\n<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/11.0\r\n<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>100\r\n<br></code></pre></td></tr></table></figure><h3 id="2-Slow-body"><a href="#2-Slow-body" class="headerlink" title="2. Slow body"></a>2. Slow body</h3><p>Slow body针对POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源</p><h3 id="3-Slow-read"><a href="#3-Slow-read" class="headerlink" title="3. Slow read"></a>3. Slow read</h3><p>客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源</p><h2 id="三、防护方法"><a href="#三、防护方法" class="headerlink" title="三、防护方法"></a>三、防护方法</h2><h3 id="1-限制http头的大小"><a href="#1-限制http头的大小" class="headerlink" title="1. 限制http头的大小"></a>1. 限制http头的大小</h3><p>可以在服务器上进行设置，制定http头部大小的上限，当缓慢的http拒绝服务攻击发出的http头到达所设置的阈值，服务器就主动中断连接</p><h3 id="2-限制最小速率和超时时间"><a href="#2-限制最小速率和超时时间" class="headerlink" title="2. 限制最小速率和超时时间"></a>2. 限制最小速率和超时时间</h3><p>对http请求的最小速率进行限制，如果请求过程过于缓慢，则断开请求<br>设置http请求的超时阈值，如果超过时间阈值，则断开请求</p><p>这两种设置的原理是一样的</p><h3 id="3-控制并发连接数"><a href="#3-控制并发连接数" class="headerlink" title="3. 控制并发连接数"></a>3. 控制并发连接数</h3><p>设置并发连接阈值，当服务器并发连接数过多时，主动断开一些连接来保证服务器正常处理新的请求</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>拒绝服务</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>拒绝服务</tag>
       
     </tags>
     
