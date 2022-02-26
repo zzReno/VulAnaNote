@@ -13,31 +13,23 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="daqian">
+  <meta name="author" content="Reno Zhang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、漏洞信息1. 服务简介Tomcat是由Apache软件基金会属下Jakarta项目开发的Servlet容器，按照Sun Microsystems提供的技术规范，实现了对Servlet和JavaServer Page（JSP）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全局管理和Tomcat阀等。由于Tomcat本身也内含了HTTP服务器，因此也可以视作单独的">
+    <meta name="description" content="一、攻击原理缓慢的HTTP拒绝服务攻击是CC攻击的变种，该攻击针对Web应用层，通过缓慢发送http请求，占用了服务器资源，保持和服务器通信的不中断，降低服务器响应效率。Web Server的并发连接有一定的上限，若攻击者发送大量的缓慢http请求，可以占满服务器的带宽直至服务器无法对外提供服务。 二、攻击分类1. Slow headers在正常的HTTP包头中，是以两个CLRF（\r\n\r\n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Apache Tomcat拒绝服务漏洞(CVE-2021-42340)">
-<meta property="og:url" content="http://example.com/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/index.html">
+<meta property="og:title" content="ZYVA">
+<meta property="og:url" content="http://example.com/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/index.html">
 <meta property="og:site_name" content="ZYVA">
-<meta property="og:description" content="一、漏洞信息1. 服务简介Tomcat是由Apache软件基金会属下Jakarta项目开发的Servlet容器，按照Sun Microsystems提供的技术规范，实现了对Servlet和JavaServer Page（JSP）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全局管理和Tomcat阀等。由于Tomcat本身也内含了HTTP服务器，因此也可以视作单独的">
+<meta property="og:description" content="一、攻击原理缓慢的HTTP拒绝服务攻击是CC攻击的变种，该攻击针对Web应用层，通过缓慢发送http请求，占用了服务器资源，保持和服务器通信的不中断，降低服务器响应效率。Web Server的并发连接有一定的上限，若攻击者发送大量的缓慢http请求，可以占满服务器的带宽直至服务器无法对外提供服务。 二、攻击分类1. Slow headers在正常的HTTP包头中，是以两个CLRF（\r\n\r\n">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/attachments/20220226112510.png">
-<meta property="og:image" content="http://example.com/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/attachments/20220226112607.png">
-<meta property="article:published_time" content="2022-02-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-26T06:28:52.512Z">
+<meta property="article:published_time" content="2022-02-26T06:29:38.000Z">
+<meta property="article:modified_time" content="2022-02-26T06:56:06.187Z">
 <meta property="article:author" content="Reno Zhang">
-<meta property="article:tag" content="Apache Tomcat">
-<meta property="article:tag" content="XF">
-<meta property="article:tag" content="拒绝服务">
-<meta property="article:tag" content="2022">
-<meta property="article:tag" content="内存泄漏">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/attachments/20220226112510.png">
   
   
-  <title>Apache Tomcat拒绝服务漏洞(CVE-2021-42340) - ZYVA</title>
+  <title>ZYVA</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -183,7 +175,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Apache Tomcat拒绝服务漏洞(CVE-2021-42340)">
+            <span class="h2" id="subtitle" title="">
               
             </span>
 
@@ -192,14 +184,14 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-author" aria-hidden="true"></i>
-      daqian
+      Reno Zhang
     </span>
   
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-26 00:00" pubdate>
-        2022年2月26日 凌晨
+      <time datetime="2022-02-26 14:29" pubdate>
+        2022年2月26日 下午
       </time>
     </span>
   
@@ -209,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      866 字
     </span>
   
 
@@ -218,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11 分钟
+      8 分钟
     </span>
   
 
@@ -255,7 +247,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Apache Tomcat拒绝服务漏洞(CVE-2021-42340)</h1>
+            <h1 style="display: none"></h1>
             
               <p class="note note-info">
                 
@@ -264,102 +256,21 @@
               </p>
             
             <div class="markdown-body">
-              <h2 id="一、漏洞信息"><a href="#一、漏洞信息" class="headerlink" title="一、漏洞信息"></a>一、漏洞信息</h2><h3 id="1-服务简介"><a href="#1-服务简介" class="headerlink" title="1. 服务简介"></a>1. 服务简介</h3><p><strong>Tomcat</strong>是由Apache软件基金会属下<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Jakarta%E9%A1%B9%E7%9B%AE" title="Jakarta项目">Jakarta项目</a>开发的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Servlet" title="Servlet">Servlet</a>容器，按照<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Sun_Microsystems" title="Sun Microsystems">Sun Microsystems</a>提供的技术规范，实现了对<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Servlet" title="Servlet">Servlet</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/JavaServer_Page" title="JavaServer Page">JavaServer Page</a>（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/JSP" title="JSP">JSP</a>）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全局管理和Tomcat阀等。由于Tomcat本身也内含了<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/HTTP" title="HTTP">HTTP</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9C%8D%E5%8A%A1%E5%99%A8" title="服务器">服务器</a>，因此也可以视作单独的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Web%E6%9C%8D%E5%8A%A1%E5%99%A8" title="Web服务器">Web服务器</a>。<br>Tomcat是由Apache软件基金会的会员和其他志愿者开发与维护的，并且是一个被置于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Apache%E5%8D%8F%E8%AE%AE" title="Apache协议">Apache协议</a>之下的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6" title="开源软件">开源软件</a>，因为Tomcat 技术先进、性能稳定，而且免费，因而深受Java 爱好者的喜爱并得到了部分软件开发商的认可，成为比较流行的Web 应用服务器。</p>
-<h3 id="2-风险等级"><a href="#2-风险等级" class="headerlink" title="2. 风险等级"></a>2. 风险等级</h3><p>NVD评分为7.5，高危漏洞</p>
-<p>360CERT对该漏洞的评定结果如下</p>
-<table>
-<thead>
-<tr>
-<th>评定方式</th>
-<th>等级</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>威胁等级</td>
-<td>高危</td>
-</tr>
-<tr>
-<td>影响面</td>
-<td>广泛</td>
-</tr>
-<tr>
-<td>攻击者价值</td>
-<td>高</td>
-</tr>
-<tr>
-<td>利用难度</td>
-<td>低</td>
-</tr>
-<tr>
-<td>360CERT评分</td>
-<td>7.8</td>
-</tr>
-</tbody></table>
-<h3 id="3-漏洞详情"><a href="#3-漏洞详情" class="headerlink" title="3. 漏洞详情"></a>3. 漏洞详情</h3><ul>
-<li>漏洞编号：CVE-2021-42340</li>
-<li>漏洞类型：拒绝服务、内存泄漏</li>
-<li>漏洞描述：由于对历史 bug 63362 的修复引入了内存泄漏。当Tomcat WebSocket连接关闭时，用于收集 HTTP 升级连接指标的对象没有被释放，这就造成了内存泄漏，于是攻击者能够通过OutOfMemoryError造成拒绝服务。</li>
-</ul>
-<h2 id="二、影响版本"><a href="#二、影响版本" class="headerlink" title="二、影响版本"></a>二、影响版本</h2><table>
-<thead>
-<tr>
-<th>组件</th>
-<th>影响版本</th>
-<th>安全版本</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Apache Tomcat</td>
-<td>10.1.0-M1 - 10.1.0-M5</td>
-<td>&gt;= 10.1.0-M6</td>
-</tr>
-<tr>
-<td>Apache Tomcat</td>
-<td>10.0.0-M10 - 10.0.11</td>
-<td>&gt;= 10.0.12</td>
-</tr>
-<tr>
-<td>Apache Tomcat</td>
-<td>9.0.40 - 9.0.53</td>
-<td>&gt;= 9.0.54</td>
-</tr>
-<tr>
-<td>Apache Tomcat</td>
-<td>8.5.60 - 8.5.71</td>
-<td>&gt;= 8.5.72</td>
-</tr>
-</tbody></table>
-<h2 id="三、漏洞原理"><a href="#三、漏洞原理" class="headerlink" title="三、漏洞原理"></a>三、漏洞原理</h2><p>漏洞主要原理是对已建立对http连接，没有做释放操作，导致大量http连接占用大量内存，从而导致内存超限，服务出现错误。<br>Apache官网的漏洞修复披露如图<br><img src="attachments/20220226112510.png" srcset="/img/loading.gif" lazyload><br>github修复代码如下：<br><img src="attachments/20220226112607.png" srcset="/img/loading.gif" lazyload><br>可以看到增加了三行内容，主要目的是添加置空操作，将connection置为null，以此释放内存。</p>
-<h2 id="四、修复建议"><a href="#四、修复建议" class="headerlink" title="四、修复建议"></a>四、修复建议</h2><p>根据<code>影响版本</code>中的信息，排查并升级到<code>安全版本</code></p>
-<h2 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h2><p><a target="_blank" rel="noopener" href="https://cert.360.cn/warning/detail?id=ddc33e535bb277aa77422db13e0c654e">CVE-2021-42340: Apache Tomcat 拒绝服务漏洞通告 - 360CERT</a><br><a target="_blank" rel="noopener" href="https://www.cve.org/CVERecord?id=CVE-2021-42340">https://www.cve.org/CVERecord?id=CVE-2021-42340</a><br><a target="_blank" rel="noopener" href="https://tomcat.apache.org/security-10.html">https://tomcat.apache.org/security-10.html</a><br><a target="_blank" rel="noopener" href="https://github.com/apache/tomcat/commit/d5a6660cba7f51589468937bf3bbad4db7810371#diff-118c313e8000707ef62583fd470ef10136c3e0fa7933532f6ae36d12c8be9512L100-R221">https://github.com/apache/tomcat/commit/d5a6660cba7f51589468937bf3bbad4db7810371#diff-118c313e8000707ef62583fd470ef10136c3e0fa7933532f6ae36d12c8be9512L100-R221</a></p>
+              <h2 id="一、攻击原理"><a href="#一、攻击原理" class="headerlink" title="一、攻击原理"></a>一、攻击原理</h2><p>缓慢的HTTP拒绝服务攻击是CC攻击的变种，该攻击针对Web应用层，通过缓慢发送http请求，占用了服务器资源，保持和服务器通信的不中断，降低服务器响应效率。Web Server的并发连接有一定的上限，若攻击者发送大量的缓慢http请求，可以占满服务器的带宽直至服务器无法对外提供服务。</p>
+<h2 id="二、攻击分类"><a href="#二、攻击分类" class="headerlink" title="二、攻击分类"></a>二、攻击分类</h2><h3 id="1-Slow-headers"><a href="#1-Slow-headers" class="headerlink" title="1. Slow headers"></a>1. Slow headers</h3><p>在正常的HTTP包头中，是以两个CLRF（<code>\r\n\r\n</code>）表示HTTP Headers部分结束的，可以看下面这个http请求，没有出现<code>\r\n\r\n</code>的结束符，服务器就会一直等待接下来的请求。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs http">GET / HTTP/1.1\r\n<br><span class="hljs-attribute">HOST</span><span class="hljs-punctuation">: </span>127.0.0.1\r\n<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/11.0\r\n<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>100\r\n<br></code></pre></td></tr></table></figure>
+<h3 id="2-Slow-body"><a href="#2-Slow-body" class="headerlink" title="2. Slow body"></a>2. Slow body</h3><p>Slow body针对POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源</p>
+<h3 id="3-Slow-read"><a href="#3-Slow-read" class="headerlink" title="3. Slow read"></a>3. Slow read</h3><p>客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源</p>
+<h2 id="三、防护方法"><a href="#三、防护方法" class="headerlink" title="三、防护方法"></a>三、防护方法</h2><h3 id="1-限制http头的大小"><a href="#1-限制http头的大小" class="headerlink" title="1. 限制http头的大小"></a>1. 限制http头的大小</h3><p>可以在服务器上进行设置，制定http头部大小的上限，当缓慢的http拒绝服务攻击发出的http头到达所设置的阈值，服务器就主动中断连接</p>
+<h3 id="2-限制最小速率和超时时间"><a href="#2-限制最小速率和超时时间" class="headerlink" title="2. 限制最小速率和超时时间"></a>2. 限制最小速率和超时时间</h3><p>对http请求的最小速率进行限制，如果请求过程过于缓慢，则断开请求<br>设置http请求的超时阈值，如果超过时间阈值，则断开请求</p>
+<p>这两种设置的原理是一样的</p>
+<h3 id="3-控制并发连接数"><a href="#3-控制并发连接数" class="headerlink" title="3. 控制并发连接数"></a>3. 控制并发连接数</h3><p>设置并发连接阈值，当服务器并发连接数过多时，主动断开一些连接来保证服务器正常处理新的请求</p>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/">拒绝服务漏洞</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/Apache-Tomcat/">Apache Tomcat</a>
-                    
-                      <a class="hover-with-bg" href="/tags/XF/">XF</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1/">拒绝服务</a>
-                    
-                      <a class="hover-with-bg" href="/tags/2022/">2022</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/">内存泄漏</a>
-                    
-                  </div>
                 
               </div>
               
@@ -374,18 +285,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/25/test/testnote/">
-                        <span class="hidden-mobile">testnote</span>
+                      <a href="/2022/02/26/2022/3%E6%9C%88%E5%89%8D/Apache%20Tomcat%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E(CVE-2021-42340)/">
+                        <span class="hidden-mobile">Apache Tomcat拒绝服务漏洞(CVE-2021-42340)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -410,7 +315,7 @@
         var options = Object.assign(
           {"clientID":"12c5bae0d1c6909aa66d","clientSecret":"af07821d529c5b5f9d38d320986fad018ce8e116","repo":"vangt","owner":"zzReno","admin":["zzReno"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: 'ccc11b7c721be3740320ff9da598c0f5'
+            id: 'ee77518e8e5a2be0dd7711db2f3576a3'
           }
         )
         var gitalk = new Gitalk(options);
