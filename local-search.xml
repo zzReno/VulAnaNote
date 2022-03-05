@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>Spring Cloud Gateway spel 远程代码执行(CVE-2022-22947)</title>
+    <link href="/2022/02/28/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/Spring%20Cloud%20Gateway%20spel%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C(CVE-2022-22947)/"/>
+    <url>/2022/02/28/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/Spring%20Cloud%20Gateway%20spel%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C(CVE-2022-22947)/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、漏洞信息"><a href="#一、漏洞信息" class="headerlink" title="一、漏洞信息"></a>一、漏洞信息</h2><h3 id="1-服务简介"><a href="#1-服务简介" class="headerlink" title="1. 服务简介"></a>1. 服务简介</h3><p>Spring Cloud Gateway 是基于 Spring Framework 和 Spring Boot 构建的 API 网关，它旨在为微服务架构提供一种简单、有效、统一的 API 路由管理方式。</p><p>如果启用和暴露 Gateway Actuator的gateway端点，就可能存在CVE-2022-22947漏洞。</p><h3 id="2-风险等级"><a href="#2-风险等级" class="headerlink" title="2. 风险等级"></a>2. 风险等级</h3><p>阿里云漏洞评分9.9</p><p>CVSS评分：9.8，危害等级：严重</p><h3 id="3-漏洞详情"><a href="#3-漏洞详情" class="headerlink" title="3. 漏洞详情"></a>3. 漏洞详情</h3><ul><li>漏洞编号：CVE-2022-22947</li><li>漏洞类型：远程命令执行</li><li>漏洞描述：如果启用和暴露 Gateway Actuator的gateway端点，且可以远程使用refresh刷新路由时，就可以远程添加恶意路由并通过refresh功能执行命令</li></ul><h2 id="二、影响版本"><a href="#二、影响版本" class="headerlink" title="二、影响版本"></a>二、影响版本</h2><p><strong>影响版本</strong>：</p><p>Spring Cloud Gateway &lt; 3.1.1</p><p>Spring Cloud Gateway &lt; 3.0.7</p><p>Spring Cloud Gateway 其他已不再更新的版本</p><p><strong>安全版本</strong>：</p><p>Spring Cloud Gateway &gt;= 3.1.1</p><p>Spring Cloud Gateway &gt;= 3.0.7</p><h2 id="三、漏洞复现"><a href="#三、漏洞复现" class="headerlink" title="三、漏洞复现"></a>三、漏洞复现</h2><p>使用vulhun搭建docker环境：<a href="https://github.com/vulhub/vulhub/tree/master/spring/CVE-2022-22947">https://github.com/vulhub/vulhub/tree/master/spring/CVE-2022-22947</a></p><p><code>docker-compose up -d</code>启动环境</p><h3 id="1-创建恶意路由（POST）"><a href="#1-创建恶意路由（POST）" class="headerlink" title="1. 创建恶意路由（POST）"></a>1. 创建恶意路由（POST）</h3><p><img src="/../../img/image-20220304175023302.png" alt="image-20220304175023302"></p><h3 id="2-refresh刷新路由缓存以执行恶意路由（POST）"><a href="#2-refresh刷新路由缓存以执行恶意路由（POST）" class="headerlink" title="2. refresh刷新路由缓存以执行恶意路由（POST）"></a>2. refresh刷新路由缓存以执行恶意路由（POST）</h3><p><img src="/../../img/image-20220304175112659.png" alt="image-20220304175112659"></p><h3 id="3-查看命令执行结果（GET）"><a href="#3-查看命令执行结果（GET）" class="headerlink" title="3. 查看命令执行结果（GET）"></a>3. 查看命令执行结果（GET）</h3><p><img src="/../../img/image-20220304175214475.png" alt="image-20220304175214475"></p><h2 id="四、修复建议"><a href="#四、修复建议" class="headerlink" title="四、修复建议"></a>四、修复建议</h2><p>临时措施：修改 spring 配置将 management.endpoint.gateway.enabled 置为 false。</p><p>升级到不受影响的版本</p><h2 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h2><p><a href="https://github.com/lucksec/Spring-Cloud-Gateway-CVE-2022-22947">https://github.com/lucksec/Spring-Cloud-Gateway-CVE-2022-22947</a></p><p><a href="https://wya.pl/2022/02/26/cve-2022-22947-spel-casting-and-evil-beans/">https://wya.pl/2022/02/26/cve-2022-22947-spel-casting-and-evil-beans/</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>命令执行</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Spring Cloud Gateway</tag>
+      
+      <tag>RCE</tag>
+      
+      <tag>CVE</tag>
+      
+      <tag>排查</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>缓慢的http拒绝服务攻击</title>
     <link href="/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/"/>
     <url>/2022/02/26/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/%E7%BC%93%E6%85%A2%E7%9A%84http%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/</url>
@@ -44,6 +75,10 @@
     
     
     <tags>
+      
+      <tag>CVE</tag>
+      
+      <tag>排查</tag>
       
       <tag>拒绝服务</tag>
       
